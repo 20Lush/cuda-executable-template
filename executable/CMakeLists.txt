@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.22)
 
 # Lets initialize the project for our actual executable
-project(EXECUTABLE_NAME
+project(CUDA_EXE_NAME
     VERSION ${PROJECT_VERSION}
-    DESCRIPTION "EXECUTABLE Project"
+    DESCRIPTION "CUDA EXECUTABLE Project"
+    LANGUAGES CUDA CXX
 )
 message(STATUS "Project name: " ${PROJECT_NAME})
 
@@ -15,12 +16,14 @@ configure_file(
 
 # Define what source files we actually are going to compile
 set(SOURCE_FILES
+    src/kernel.cu
     src/main.cpp
 )
 
 # Define what header files are going to be exposed(only put interfaces!)
 set(PUBLIC_INCLUDE_FILES
     include/main.hpp
+    include/kernel.hpp
 )
 
 # Do a CMake add_executable to mark it for build
@@ -40,6 +43,8 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:include>
 )
 
+find_package(CUDAToolkit REQUIRED)
+
 # Put any compile features we'd want in here, like language standards
 target_compile_features(${PROJECT_NAME}
     PUBLIC
@@ -50,13 +55,16 @@ target_compile_features(${PROJECT_NAME}
 set_target_properties(${PROJECT_NAME}
     PROPERTIES
         LINKER_LANGUAGE CXX
-        POSITION_INDEPENDENT_CODE TRUE
+        POSITION_INDEPENDENT_CODE ON
+        CUDA_SEPARABLE_COMPILATION ON
 )
 
 # Link the libraries we want, like OpenCV or the cuda toolkit
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
         # any dependency library we are linking...
+        CUDA::cudart
+        CUDA::cuda_driver
 )
 
 # Send to boilerplate!

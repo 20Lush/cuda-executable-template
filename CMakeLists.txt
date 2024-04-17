@@ -4,9 +4,9 @@ cmake_minimum_required(VERSION 3.22)
 set(PROJECT_VERSION 1.0.0)
 
 # Initialize our project regarding the whole repo, and give it its version.
-project(EXECUTABLE_REPOSITORY_NAME
+project(CUDA_EXE_NAME_REPO
     VERSION ${PROJECT_VERSION}
-    DESCRIPTION "EXECUTABLE Repository"
+    DESCRIPTION "CUDA EXECUTABLE Repository"
 )
 message(STATUS "Repository name: " ${PROJECT_NAME})
 
@@ -23,7 +23,7 @@ include(${CMAKE_BOILERPLATE_PATH}/TESTING.cmake)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/")
 
 # We add some compile options to make us honest and our code at least a little clean
-add_compile_options(-Wall -Wextra -Wpedantic -Wformat-overflow=0)
+add_compile_options(-Wall -Wextra -Wformat-overflow=0)
 
 # In case we want to do some code coverage calculation later, lets put a coverage flag when we compile for debug
 if(CMAKE_BUILD_TYPE STREQUAL "DEBUG")
